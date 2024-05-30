@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/ros/unitree/src/unitree_legged_sdk-3.8.3/devel/setup.sh
