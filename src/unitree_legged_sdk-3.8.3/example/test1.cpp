@@ -63,7 +63,7 @@ void Custom::RobotControl()
 
     if (motiontime > 0 && motiontime < 2000)
     {
-        cmd.mode = 0;
+        cmd.mode = 6;
     }
     else if(motiontime >= 2000 && motiontime < 3000)
     {
@@ -99,25 +99,29 @@ void Custom::RobotControl()
         cmd.mode = 1;
         cmd.euler[2] = -0.3;
     }
-    */
-    else if(motiontime >= 14000 && motiontime < 15000)
+    
+    else if(motiontime >= 3000 && motiontime < 6000)
     {
         cmd.mode = 1;
     }
-    else if(motiontime >= 15000 && motiontime < 18000)
+    */
+    else if(motiontime >= 3000 && motiontime < 6000)
     {
         cmd.mode = 2;
         cmd.velocity[0] = 0.3;
-        cmd.yawSpeed = 0.2;
+        cmd.yawSpeed = 0;
     }
-    else if(motiontime >= 18000 && motiontime < 21000)
+    
+    else if(motiontime >= 6000 && motiontime < 10000)
     {
         cmd.mode = 2;
-        cmd.velocity[1] = -0.3;
-        cmd.yawSpeed = -0.2;
+        cmd.velocity[0] = -0.3;
+        cmd.yawSpeed = 0;
     }
-    else if(motiontime >= 21000 && motiontime < 22000)
+        
+    else if(motiontime >= 10000 && motiontime < 12000)
     {
+        
         cmd.mode = 1;
     }
     /*else if(motiontime >= 22000 && motiontime < 25000)
@@ -126,10 +130,7 @@ void Custom::RobotControl()
         cmd.gaitType = 3;
     }
     */
-    else if(motiontime >= 25000 && motiontime < 26000)
-    {
-        cmd.mode = 1;
-    }
+    
     else 
     {
         cmd.mode = 0;

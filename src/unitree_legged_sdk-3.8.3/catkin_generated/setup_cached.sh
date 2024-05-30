@@ -9,6 +9,7 @@
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/ros/unitree/src/unitree_legged_sdk-3.8.3/devel:$CMAKE_PREFIX_PATH"
 export LD_LIBRARY_PATH="/home/ros/unitree/src/unitree_legged_sdk-3.8.3/devel/lib:$LD_LIBRARY_PATH"
+export PATH='/opt/ros/melodic/bin:/home/ros/.nvm/versions/node/v20.9.0/bin:/home/ros/anaconda3/bin:/home/ros/anaconda3/condabin:/home/ros/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
 export PKG_CONFIG_PATH="/home/ros/unitree/src/unitree_legged_sdk-3.8.3/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PYTHONPATH="/home/ros/unitree/src/unitree_legged_sdk-3.8.3/devel/lib/python2.7/dist-packages:$PYTHONPATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/ros/unitree/src/unitree_legged_sdk-3.8.3/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
