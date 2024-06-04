@@ -11,12 +11,13 @@
 
 
 using namespace UNITREE_LEGGED_SDK;
-
+using namespace std::chrono;
 class Custom
 {
 public:
     Custom(uint8_t level) : safe(LeggedType::B1),
-                            udp(level, 8090, "192.168.123.220", 8082)
+                            udp(level, 8090, "192.168.123.220", 8082),
+                            startTime(high_resolution_clock::now()) 
     {
         udp.InitCmdData(cmd);
         // udp.print = true;
@@ -29,7 +30,8 @@ public:
     UDP udp;
     HighCmd cmd = {0};
     HighState state = {0};
-    int motiontime = 0;
+   // int motiontime = 0;
+    time_point<high_resolution_clock> startTime;
     float dt = 0.002; // 0.001~0.01
 };
 
@@ -43,11 +45,15 @@ void Custom::UDPSend()
     udp.Send();
 }
 
+
 void Custom::RobotControl()
 {
-    motiontime += 2;
+   // motiontime += 2;
+    auto now = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(now - startTime).count();
+
     udp.GetRecv(state);
-    printf("%d   %f\n", motiontime, state.imu.rpy[2]);
+    printf("%d   %f\n", duration/*motiontime*/, state.imu.rpy[2]);
 
     cmd.mode = 0; // 0:idle, default stand      1:forced stand     2:walk continuously
     cmd.gaitType = 0;
@@ -62,13 +68,17 @@ void Custom::RobotControl()
     cmd.yawSpeed = 0.0f;
     cmd.reserve = 0;
 
-    if (motiontime > 0 && motiontime < 2000)
-    {
-        cmd.mode = 6;
-    }
-    else if(motiontime >= 2000 && motiontime < 3000)
+//motiontime is replaced by duration
+
+    if (duration > 0 && duration < 5000)
     {
         cmd.mode = 1;
+    }
+    else if(duration >= 5000 && duration < 15000)
+    {
+        cmd.mode = 2;
+        cmd.velocity[0]=0.5;
+        cmd.yawSpeed = 0;
     }
   /*  else if(motiontime >= 3000 && motiontime < 4000)
     {
@@ -106,24 +116,26 @@ void Custom::RobotControl()
         cmd.mode = 1;
     }
     */
-    else if(motiontime >= 3000 && motiontime < 6000)
-    {
-        cmd.mode = 2;
-        cmd.velocity[0] = 0.3;
-        cmd.yawSpeed = 0;
-    }
     
-    else if(motiontime >= 6000 && motiontime < 10000)
+    else if(duration >= 15000 && duration < 20000)
     {
         cmd.mode = 2;
-        cmd.velocity[0] = -0.3;
-        cmd.yawSpeed = 0;
+        cmd.velocity[0] = 0;
+        cmd.yawSpeed = 0.625;
     }
         
-    else if(motiontime >= 10000 && motiontime < 12000)
+        else if(duration >= 20000 && duration < 22000)
     {
-        
         cmd.mode = 1;
+        cmd.velocity[0] = 0;
+        cmd.yawSpeed = 0;
+    }
+    else if(duration >= 22000 && duration < 32000)
+    {
+        cmd.mode = 2;
+        cmd.velocity[0]=0.5;
+        cmd.yawSpeed = 0;
+      
     }
     /*else if(motiontime >= 22000 && motiontime < 25000)
     {
@@ -132,9 +144,14 @@ void Custom::RobotControl()
     }
     */
     
+    else if (duration >= 33000 && duration < 35000)
+    {
+        cmd.mode = 1;
+
+    }
     else 
     {
-        cmd.mode = 0;
+    cmd.mode=0;
     }
     
     udp.SetSend(cmd);

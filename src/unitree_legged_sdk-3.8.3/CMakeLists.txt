@@ -34,6 +34,9 @@ target_link_libraries(fourleg_hangup ${EXTRA_LIBS})
 add_executable(test1 example/test1.cpp)
 target_link_libraries(test1 ${EXTRA_LIBS})
 
+add_executable(test2 example/test2.cpp)
+target_link_libraries(test2 ${EXTRA_LIBS})
+
 
 add_executable(example_velocity example/example_velocity.cpp)
 target_link_libraries(example_velocity ${EXTRA_LIBS})
